@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Salvea — витамины по назначению вашего врача</title>
+<meta name="description" content="Salvea исполняет назначение вашего врача: фасует БАД и витамины в персональные саше по дням и времени приёма, привозит домой и напоминает выпить. Санкт-Петербург и Москва." />
+<meta name="theme-color" content="#163528" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Salvea — витамины по назначению вашего врача" />
+<meta property="og:description" content="Персональные саше из назначения вашего врача — по дням и времени приёма. Доставка и напоминания. Питер и Москва." />
+<meta property="og:locale" content="ru_RU" />
+
+<!-- Fonts: Cormorant Garamond (заголовки) + Manrope (текст/интерфейс), с кириллицей -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   SALVEA — landing
+   Палитра, типографика и компоненты в духе
+   «современная аптека / клиническая редакция»
+   ============================================================ */
+:root{
+  --paper:#F6F1E7;      /* тёплый бумажный фон */
+  --paper-card:#FBF7EF; /* карточки чуть светлее */
+  --ink:#1E241C;        /* чернильный текст */
+  --green:#234E3E;      /* ботанический зелёный */
+  --green-deep:#163528; /* тёмно-зелёный (контрастные блоки) */
+  --terra:#C26A3C;      /* терракотовый акцент */
+  --terra-soft:#D98A5B;
+  --terra-text:#9A4A1C;
+  --greige:#6E6C5E;     /* приглушённый второстепенный текст */
+  --line:rgba(30,36,28,.12);
+  --line-soft:rgba(30,36,28,.08);
+  --green-tint:rgba(35,78,62,.06);
+
+  /* На тёмно-зелёных секциях */
+  --on-dark:#EFE9DB;
+  --on-dark-soft:#A9B7A6;
+  --on-dark-line:rgba(239,233,219,.16);
+
+  --serif:"Cormorant Garamond", Georgia, serif;
+  --sans:"Manrope", system-ui, -apple-system, sans-serif;
+
+  --maxw:1180px;
+  --radius:22px;
+  --radius-sm:14px;
+  --shadow:0 28px 60px -28px rgba(30,36,28,.30), 0 8px 22px -16px rgba(30,36,28,.22);
+  --shadow-soft:0 18px 44px -26px rgba(30,36,28,.26);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:90px;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+
+/* Зернистая «бумажная» текстура поверх фона */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:multiply;}
+.grain svg{width:100%;height:100%;}
+
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,select,textarea{font-family:inherit;font-size:inherit;}
+
+/* Видимый фокус для клавиатуры */
+a:focus-visible,button:focus-visible,summary:focus-visible,.btn:focus-visible,.opt:focus-visible,.modal-close:focus-visible,.skip:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:8px;}
+.on-dark a:focus-visible,.on-dark button:focus-visible,.on-dark .btn:focus-visible{outline-color:var(--terra-soft);}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--green);color:var(--paper);padding:10px 18px;border-radius:0 0 12px 0;font-weight:600;}
+.skip-link:focus{left:0;}
+
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.04;letter-spacing:-.01em;margin:0;}
+h1{font-size:clamp(2.6rem,5.4vw,4.3rem);}
+h2{font-size:clamp(2.1rem,4.4vw,3.4rem);}
+h3{font-size:clamp(1.4rem,2.4vw,1.85rem);}
+em,.accent{color:var(--terra);font-style:italic;}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+section{position:relative;}
+
+/* Надзаголовки / eyebrow */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55em;
+  font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--greige);
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--terra);display:inline-block;}
+.on-dark .eyebrow{color:var(--on-dark-soft);}
+
+/* Кнопки-пилюли */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  font-weight:600;font-size:1rem;border-radius:999px;
+  padding:.95em 1.7em;transition:transform .25s var(--ease),background .25s var(--ease),box-shadow .25s var(--ease),color .25s var(--ease);
+  white-space:nowrap;
+}
+.btn-primary{background:var(--green);color:var(--paper);box-shadow:0 14px 30px -14px rgba(35,78,62,.7);}
+.btn-primary:hover{background:var(--green-deep);transform:translateY(-2px);}
+.btn-terra{background:var(--terra);color:#fff;box-shadow:0 14px 30px -14px rgba(194,106,60,.75);}
+.btn-terra:hover{background:var(--terra-soft);transform:translateY(-2px);}
+.btn-ghost{border:1.5px solid var(--line);background:transparent;color:var(--ink);}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);}
+.on-dark .btn-ghost{border-color:var(--on-dark-line);color:var(--on-dark);}
+.on-dark .btn-ghost:hover{border-color:var(--on-dark);}
+.btn:disabled{opacity:.6;cursor:wait;transform:none;}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  transition:background .3s var(--ease),box-shadow .3s var(--ease),padding .3s var(--ease),border-color .3s var(--ease);
+  padding:22px 0;border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(246,241,231,.78);
+  backdrop-filter:saturate(1.4) blur(14px);
+  -webkit-backdrop-filter:saturate(1.4) blur(14px);
+  box-shadow:0 6px 24px -18px rgba(30,36,28,.5);
+  padding:14px 0;border-bottom:1px solid var(--line-soft);
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;}
+.wordmark{font-family:var(--serif);font-weight:600;font-size:1.85rem;letter-spacing:-.02em;line-height:1;color:var(--ink);}
+.wordmark span{color:var(--terra);}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.nav .btn{padding:.72em 1.4em;font-size:.95rem;}
+
+/* ============ HERO ============ */
+.hero{padding:128px 0 112px;}
+.hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:64px;align-items:start;}
+.hero h1{margin:.5rem 0 0;}
+.hero .sub{margin:1.3rem 0 1.7rem;color:var(--greige);font-size:1.18rem;max-width:33ch;}
+
+/* Форма захвата */
+.capture{display:flex;flex-direction:column;gap:12px;max-width:430px;}
+.capture .fields{display:flex;flex-direction:column;gap:12px;}
+@media (min-width:600px){.capture .fields{display:grid;grid-template-columns:1fr 1fr;}}
+.form-consent{font-size:.78rem;color:var(--greige);line-height:1.45;margin:2px 0 0;}
+.form-consent a{text-decoration:underline;text-underline-offset:2px;}
+.on-dark .form-consent{color:var(--on-dark-soft);}
+.field{position:relative;}
+.field input{
+  width:100%;padding:1.02em 1.15em;border-radius:14px;
+  border:1.5px solid var(--line);background:var(--paper-card);color:var(--ink);
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+}
+.field input::placeholder{color:var(--greige);}
+.field input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-tint);background:#fff;}
+.field input[aria-invalid="true"]{border-color:var(--terra);box-shadow:0 0 0 4px rgba(194,106,60,.12);}
+.capture .btn{width:100%;}
+.form-note{font-size:.86rem;color:var(--greige);display:flex;align-items:center;gap:.5em;line-height:1.4;}
+.form-note svg{flex:none;color:var(--green);}
+.form-msg{font-size:.9rem;min-height:1.2em;}
+.form-msg.error{color:var(--terra-text);}
+.form-msg.ok{color:var(--green);}
+.on-dark .form-msg.error{color:#F0A877;}
+.on-dark .form-msg.ok{color:#9BC89A;}
+.honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
+
+/* Hero — карточка-саше */
+.hero-visual{position:relative;display:flex;justify-content:center;align-self:center;}
+.sachet-wrap{position:relative;width:min(380px,100%);}
+.sachet{
+  position:relative;width:min(380px,100%);background:linear-gradient(170deg,#FCF9F2,#F2EADB);
+  border-radius:22px;padding:30px 30px 26px;box-shadow:var(--shadow);
+  transform:rotate(-3.2deg);transition:transform .6s var(--ease);
+  border:1px solid rgba(255,255,255,.7);
+}
+.hero-visual:hover .sachet{transform:rotate(-1.4deg) translateY(-4px);}
+/* перфорация-надрыв сверху */
+.sachet::before{
+  content:"";position:absolute;left:22px;right:22px;top:14px;height:0;
+  border-top:2px dashed rgba(30,36,28,.16);
+}
+/* боковые «надрезы» саше */
+.sachet .notch{position:absolute;top:9px;width:16px;height:16px;border-radius:50%;background:var(--paper);}
+.sachet .notch.l{left:-8px;}
+.sachet .notch.r{right:-8px;}
+.sachet-badge{
+  position:absolute;top:-15px;right:18px;background:var(--terra);color:#fff;
+  font-size:.7rem;font-weight:700;letter-spacing:.12em;padding:.55em 1em;border-radius:999px;
+  box-shadow:0 10px 22px -10px rgba(194,106,60,.8);
+}
+.sachet-day{font-family:var(--serif);font-size:2.15rem;font-weight:600;margin-top:14px;line-height:1;}
+.sachet-meta{font-size:.84rem;color:var(--greige);margin:.35em 0 1.2em;}
+.dose-row{display:flex;align-items:center;gap:12px;padding:.72em 0;border-top:1px solid var(--line-soft);}
+.dose-row:first-of-type{border-top:none;}
+.pill-dot{width:13px;height:13px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);}
+.dose-name{font-weight:600;font-size:.98rem;}
+.dose-amt{margin-left:auto;color:var(--greige);font-size:.92rem;font-variant-numeric:tabular-nums;}
+.sachet-tag{
+  display:flex;align-items:center;gap:.55em;margin-top:1.2em;padding-top:1.1em;border-top:1px dashed var(--line);
+  font-size:.86rem;font-weight:600;color:var(--green);
+}
+.sachet-tag .chk{width:20px;height:20px;border-radius:50%;background:var(--green);color:var(--paper);display:grid;place-items:center;flex:none;}
+/* парящие декоративные листья */
+.leaf{position:absolute;color:var(--green);opacity:.5;}
+.leaf.one{top:-26px;left:0;width:64px;transform:rotate(-18deg);}
+.leaf.two{bottom:-30px;right:8px;width:54px;transform:rotate(140deg);opacity:.4;}
+
+/* ============ PROBLEM (тёмно-зелёный) ============ */
+.problem{background:var(--green-deep);color:var(--on-dark);padding:110px 0;}
+.problem .head{max-width:46ch;}
+.problem h2{color:var(--on-dark);}
+.problem .sub{color:var(--on-dark-soft);font-size:1.15rem;margin-top:1.1rem;max-width:54ch;}
+.problem-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:54px;align-items:center;margin-top:58px;}
+.problem-photo{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transform:rotate(1.6deg);}
+.problem-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4;}
+.pain-list{display:flex;flex-direction:column;gap:6px;}
+.pain{display:grid;grid-template-columns:auto 1fr;gap:22px;padding:26px 0;border-top:1px solid var(--on-dark-line);}
+.pain:first-child{border-top:none;}
+.pain .num{font-family:var(--serif);font-size:2.3rem;color:var(--terra-soft);line-height:1;font-style:italic;}
+.pain h3{color:var(--on-dark);font-size:1.35rem;margin-bottom:.25em;}
+.pain p{margin:0;color:var(--on-dark-soft);font-size:1rem;}
+
+/* ============ HOW IT WORKS ============ */
+.how{padding:120px 0;}
+.how .head{max-width:48ch;margin-bottom:56px;}
+.how .sub{color:var(--greige);font-size:1.15rem;margin-top:1.1rem;max-width:52ch;}
+.how-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:center;}
+.how-photo{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transform:rotate(-1.8deg);}
+.how-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4;}
+.steps{display:flex;flex-direction:column;gap:14px;}
+.step{
+  display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;
+  background:var(--paper-card);border:1px solid var(--line-soft);border-radius:var(--radius-sm);
+  padding:26px 28px;box-shadow:var(--shadow-soft);
+}
+.step .idx{font-family:var(--serif);font-size:1.7rem;font-weight:600;color:var(--terra);
+  width:54px;height:54px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;flex:none;}
+.step h3{margin-bottom:.3em;}
+.step p{margin:0;color:var(--greige);font-size:1rem;}
+
+/* ============ TRUST ============ */
+.trust{padding:30px 0 120px;}
+.trust .head{max-width:46ch;margin-bottom:50px;}
+.trust .sub{color:var(--greige);font-size:1.15rem;margin-top:1.1rem;}
+.trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.trust-card{
+  background:var(--paper-card);border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:32px 34px;box-shadow:var(--shadow-soft);
+}
+.trust-card .chk{
+  width:38px;height:38px;border-radius:11px;background:var(--green-tint);color:var(--green);
+  display:grid;place-items:center;margin-bottom:18px;
+}
+.trust-card h3{font-size:1.45rem;margin-bottom:.35em;}
+.trust-card p{margin:0;color:var(--greige);}
+
+/* ============ LIFESTYLE BAND ============ */
+.band{position:relative;min-height:62vh;display:grid;place-items:center;overflow:hidden;color:var(--on-dark);text-align:center;}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,53,40,.45),rgba(22,53,40,.62));}
+.band .band-text{position:relative;z-index:1;max-width:18ch;padding:30px;}
+.band .band-text p{font-family:var(--serif);font-style:italic;font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.1;color:var(--on-dark);margin:0;}
+
+/* ============ PRICING ============ */
+.pricing{padding:120px 0;text-align:center;}
+.price-card{
+  max-width:720px;margin:0 auto;background:var(--paper-card);
+  border:1px solid var(--line-soft);border-radius:var(--radius);padding:60px 48px;
+  box-shadow:var(--shadow);position:relative;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:.5em;background:var(--green-tint);color:var(--green);
+  font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.6em 1.1em;border-radius:999px;margin-bottom:24px;
+}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--terra);}
+.price-card h2{margin-bottom:1rem;}
+.price-card p{color:var(--greige);max-width:46ch;margin:0 auto 2rem;font-size:1.1rem;}
+
+/* ============ FAQ ============ */
+.faq{padding:0 0 120px;}
+.faq .head{text-align:center;margin-bottom:50px;}
+.faq-list{max-width:780px;margin:0 auto;}
+details{border-bottom:1px solid var(--line);padding:6px 0;}
+details summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:24px 4px;font-family:var(--serif);font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:600;color:var(--ink);
+}
+details summary::-webkit-details-marker{display:none;}
+details summary .ic{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);
+  display:grid;place-items:center;transition:transform .3s var(--ease),background .3s var(--ease),color .3s var(--ease);}
+details[open] summary .ic{transform:rotate(45deg);background:var(--green);color:var(--paper);border-color:var(--green);}
+details .answer{padding:0 4px 26px;color:var(--greige);font-size:1.06rem;max-width:62ch;}
+
+/* ============ FINAL CTA ============ */
+.final{background:var(--green-deep);color:var(--on-dark);padding:120px 0;text-align:center;}
+.final h2{color:var(--on-dark);max-width:18ch;margin:0 auto 14px;}
+.final .sub{color:var(--on-dark-soft);max-width:50ch;margin:0 auto 38px;font-size:1.15rem;}
+.final .capture{margin:0 auto;}
+.final .field input{background:rgba(255,255,255,.06);border-color:var(--on-dark-line);color:var(--on-dark);}
+.final .field input::placeholder{color:var(--on-dark-soft);}
+.final .field input:focus{border-color:var(--terra-soft);box-shadow:0 0 0 4px rgba(217,138,91,.15);background:rgba(255,255,255,.1);}
+.final .form-note{color:var(--on-dark-soft);}
+.final .form-note svg{color:var(--terra-soft);}
+
+/* ============ FOOTER ============ */
+.footer{background:#11261C;color:var(--on-dark-soft);padding:54px 0;font-size:.92rem;}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;}
+.footer .wordmark{font-size:1.5rem;color:var(--on-dark);}
+.footer .disc{max-width:64ch;line-height:1.6;}
+
+/* ============ SURVEY MODAL ============ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:100;background:rgba(22,53,40,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s var(--ease);
+}
+.modal-overlay.open{opacity:1;visibility:visible;}
+.modal{
+  background:var(--paper);border-radius:24px;max-width:540px;width:100%;
+  max-height:92vh;overflow:auto;box-shadow:0 40px 90px -30px rgba(0,0,0,.5);
+  padding:38px 38px 34px;position:relative;transform:translateY(18px) scale(.98);
+  transition:transform .4s var(--ease);
+}
+.modal-overlay.open .modal{transform:none;}
+.modal-close{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;color:var(--greige);transition:background .2s,color .2s;}
+.modal-close:hover{background:var(--green-tint);color:var(--green);}
+.modal .progress{height:4px;background:var(--line-soft);border-radius:999px;overflow:hidden;margin-bottom:26px;}
+.modal .progress span{display:block;height:100%;background:var(--terra);border-radius:999px;width:0;transition:width .4s var(--ease);}
+.modal .q-eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--greige);margin-bottom:10px;}
+.modal h3{font-size:1.7rem;margin-bottom:22px;line-height:1.1;}
+.opts{display:flex;flex-direction:column;gap:10px;}
+.opt{
+  text-align:left;padding:16px 18px;border-radius:14px;border:1.5px solid var(--line);
+  background:var(--paper-card);font-weight:500;font-size:1rem;
+  transition:border-color .2s var(--ease),background .2s var(--ease),transform .15s var(--ease);
+  display:flex;align-items:center;gap:12px;
+}
+.opt:hover{border-color:var(--green);background:#fff;transform:translateX(3px);}
+.opt .marker{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);flex:none;transition:.2s;}
+.opt:hover .marker{border-color:var(--green);}
+.modal-foot{display:flex;align-items:center;justify-content:space-between;margin-top:26px;}
+.skip{color:var(--greige);font-size:.92rem;font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:8px 4px;display:inline-block;}
+.skip:hover{color:var(--ink);}
+.modal-intro{font-size:1.02rem;color:var(--greige);margin:-8px 0 24px;}
+/* done screen */
+.done{text-align:center;padding:14px 0 6px;}
+.done .seal{width:74px;height:74px;border-radius:50%;background:var(--green);color:var(--paper);display:grid;place-items:center;margin:0 auto 22px;box-shadow:0 16px 34px -16px rgba(35,78,62,.8);}
+.done h3{margin-bottom:.5em;}
+.done p{color:var(--greige);max-width:40ch;margin:0 auto;}
+
+/* ============ REVEAL ANIMATION ============ */
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+[data-reveal].is-in{opacity:1;transform:none;}
+@media (prefers-reduced-motion:reduce){
+  [data-reveal]{opacity:1!important;transform:none!important;transition:none!important;}
+  .sachet{transform:rotate(-3.2deg)!important;}
+  .modal-overlay,.modal,.opt,.opt:hover,.btn,.btn:hover,.modal .progress span{transition:none!important;transform:none!important;}
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:980px){
+  .hero-grid,.problem-grid,.how-grid{grid-template-columns:1fr;gap:48px;}
+  .hero{padding:128px 0 70px;}
+  .hero .sub{max-width:46ch;}
+  .hero-visual{order:-1;}
+  .problem-photo,.how-photo{max-width:420px;margin:0 auto;}
+  .trust-grid{grid-template-columns:1fr;}
+}
+@media (max-width:600px){
+  html{scroll-padding-top:72px;}
+  body{font-size:16px;}
+  .wrap{padding:0 20px;}
+  .nav .btn{padding:.66em 1.1em;font-size:.9rem;}
+  .hero{padding:118px 0 56px;}
+  .problem,.how,.trust,.pricing,.final{padding:80px 0;}
+  .trust{padding:20px 0 80px;}
+  .price-card{padding:44px 26px;}
+  .modal{padding:30px 24px 26px;}
+  .step{padding:22px 22px;gap:18px;}
+  .step .idx{width:46px;height:46px;font-size:1.4rem;}
+  .footer .wrap{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<a href="#top" class="skip-link">К содержанию</a>
+
+<!-- зернистая текстура -->
+<div class="grain" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#noise)"/></svg>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="wordmark" aria-label="Salvea — на главную">Sal<span>v</span>ea</a>
+    <div class="nav-right">
+      <a href="#early-access" class="btn btn-primary" data-scroll>Ранний доступ</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow" data-reveal><span class="dot"></span>Питер и&nbsp;Москва · скоро</span>
+      <h1 data-reveal>Витамины <em>по назначению</em> вашего врача&nbsp;— а&nbsp;не наугад</h1>
+      <p class="sub" data-reveal>Загрузите рекомендации своего врача и результаты анализов. Соберём персональные саше по дням и времени приёма, привезём домой и напомним выпить. Без банок, без хаоса, без догадок.</p>
+
+      <form class="capture" data-capture data-source="hero" novalidate data-reveal>
+        <div class="fields">
+          <div class="field">
+            <label class="honeypot" for="h-company">Не заполняйте</label>
+            <input class="honeypot" id="h-company" name="company" tabindex="-1" autocomplete="off" />
+            <label class="sr-only" for="hero-email">Ваш e-mail</label>
+            <input type="email" id="hero-email" name="email" inputmode="email" autocomplete="email"
+              placeholder="Ваш e-mail" aria-describedby="msg-hero" required />
+          </div>
+          <div class="field">
+            <label class="sr-only" for="hero-tg">Telegram — никнейм или телефон</label>
+            <input type="text" id="hero-tg" name="telegram" autocomplete="off"
+              placeholder="Telegram: @никнейм или телефон" aria-describedby="msg-hero" required />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-terra">Получить ранний доступ</button>
+        <p class="form-msg" id="msg-hero" role="status" aria-live="polite"></p>
+        <p class="form-note">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Первым участникам — особые условия. Никакого спама.
+        </p>
+        <p class="form-consent">Нажимая кнопку, вы соглашаетесь на обработку персональных данных согласно <a href="/privacy">политике конфиденциальности</a>.</p>
+      </form>
+    </div>
+
+    <div class="hero-visual" data-reveal>
+      <div class="sachet-wrap">
+      <!-- декоративные листья -->
+      <svg class="leaf one" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M58 6C30 8 8 26 6 58c0-2 2-22 22-34C40 17 52 12 58 6Z"/><path d="M6 58C18 44 34 34 56 30" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".5"/></svg>
+      <svg class="leaf two" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M58 6C30 8 8 26 6 58c0-2 2-22 22-34C40 17 52 12 58 6Z"/></svg>
+
+      <div class="sachet">
+        <span class="notch l"></span><span class="notch r"></span>
+        <span class="sachet-badge">СЕГОДНЯ · УТРО</span>
+        <div class="sachet-day">Понедельник</div>
+        <div class="sachet-meta">по назначению вашего врача · 3 позиции</div>
+
+        <div class="dose-row">
+          <span class="pill-dot" style="background:#E0B24A"></span>
+          <span class="dose-name">Витамин D3</span>
+          <span class="dose-amt">2000&nbsp;МЕ</span>
+        </div>
+        <div class="dose-row">
+          <span class="pill-dot" style="background:#6E8C5A"></span>
+          <span class="dose-name">Магний</span>
+          <span class="dose-amt">300&nbsp;мг</span>
+        </div>
+        <div class="dose-row">
+          <span class="pill-dot" style="background:#C26A3C"></span>
+          <span class="dose-name">Омега-3</span>
+          <span class="dose-amt">1000&nbsp;мг</span>
+        </div>
+
+        <div class="sachet-tag">
+          <span class="chk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          Расфасовано по&nbsp;дням и&nbsp;времени
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="problem on-dark">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow" data-reveal><span class="dot"></span>Знакомо?</span>
+      <h2 data-reveal>Врач назначил добавки. Дальше&nbsp;— как обычно.</h2>
+      <p class="sub" data-reveal>Назначение лежит в заметках, банки стоят на полке, половина приёмов забыта, а через полгода непонятно, что вообще помогло.</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-photo" data-reveal>
+        <img src="assets/problem.jpg" width="1045" height="1400" loading="lazy" decoding="async"
+          alt="Беспорядочно составленные баночки витаминов и БАД на домашней полке" />
+      </div>
+      <div class="pain-list">
+        <div class="pain" data-reveal>
+          <div class="num">01</div>
+          <div>
+            <h3>Банки без системы</h3>
+            <p>Назначение — в заметках, добавки — на полке, единого расписания приёма так и нет.</p>
+          </div>
+        </div>
+        <div class="pain" data-reveal>
+          <div class="num">02</div>
+          <div>
+            <h3>Приём быстро забрасывают</h3>
+            <p>Курс легко забросить — не из-за лени, а потому что неудобно и легко пропустить приём.</p>
+          </div>
+        </div>
+        <div class="pain" data-reveal>
+          <div class="num">03</div>
+          <div>
+            <h3>Нет картины динамики</h3>
+            <p>Непонятно, что именно сработало: контроля нет, мотивация продолжать постепенно гаснет.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow" data-reveal><span class="dot"></span>Как это работает</span>
+      <h2 data-reveal>Мы не назначаем. Мы <em>исполняем</em> то, что назначил ваш врач.</h2>
+      <p class="sub" data-reveal>Три простых шага — и приём добавок перестаёт быть вашей заботой.</p>
+    </div>
+
+    <div class="how-grid">
+      <div class="how-photo" data-reveal>
+        <img src="assets/still-life.jpg" width="1045" height="1400" loading="lazy" decoding="async"
+          alt="Персональные саше с добавками, аккуратно разложенные на тёплом льняном фоне" />
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal>
+          <div class="idx">01</div>
+          <div>
+            <h3>Загрузите назначение</h3>
+            <p>Рекомендации врача или нутрициолога и результаты анализов — фото или PDF. Структурируем их в понятный профиль приёма.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="idx">02</div>
+          <div>
+            <h3>Соберём ваши саше</h3>
+            <p>Каждая добавка из назначения — в персональные саше по дням недели и времени приёма. Без банок и пересчётов.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="idx">03</div>
+          <div>
+            <h3>Привезём и напомним</h3>
+            <p>Доставка по графику, напоминания в приложении, автодозаказ к концу курса. Пересдали анализы — обновим набор.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST ============ -->
+<section class="trust">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow" data-reveal><span class="dot"></span>Честно и безопасно</span>
+      <h2 data-reveal>Мы — сервис исполнения и контроля приёма, а не замена врачу.</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card" data-reveal>
+        <div class="chk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>По назначению вашего врача</h3>
+        <p>Не ставим диагнозы и не даём медицинских рекомендаций — только исполняем назначение вашего специалиста.</p>
+      </div>
+      <div class="trust-card" data-reveal>
+        <div class="chk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Только БАД и витамины</h3>
+        <p>Работаем только с сертифицированными БАД и витаминами — без рецептурных препаратов.</p>
+      </div>
+      <div class="trust-card" data-reveal>
+        <div class="chk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <h3>Прозрачные дозировки</h3>
+        <p>Всегда видно, что именно, сколько и когда вы принимаете — никаких «непонятных смесей».</p>
+      </div>
+      <div class="trust-card" data-reveal>
+        <div class="chk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Ваши данные под защитой</h3>
+        <p>Анализы и назначения храним конфиденциально и используем, чтобы собрать ваш курс.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIFESTYLE BAND ============ -->
+<section class="band">
+  <img src="assets/lifestyle.jpg" width="1800" height="1195" loading="lazy" decoding="async"
+    alt="Спокойное утро: руки держат дневное саше рядом со стаканом воды и чашкой кофе" />
+  <div class="band-text" data-reveal>
+    <p>Один курс. Каждый день — на своём месте.</p>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="price-card" data-reveal>
+      <span class="badge"><span class="dot"></span>Ранний доступ · Питер и Москва</span>
+      <h2>Один понятный платёж в месяц вместо семи случайных покупок</h2>
+      <p>Точную цену объявим при запуске. Участники списка раннего доступа получат специальные условия — и забронируют место в первой волне доставки.</p>
+      <a href="#early-access" class="btn btn-primary" data-scroll>Встать в список</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow" data-reveal><span class="dot"></span>Вопросы</span>
+      <h2 data-reveal>Коротко о главном</h2>
+    </div>
+    <div class="faq-list">
+      <details data-reveal>
+        <summary>Вы заменяете моего врача?<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="answer">Нет. Мы не ставим диагнозы и не даём медицинских рекомендаций. Salvea исполняет то, что уже назначил ваш врач или нутрициолог: фасует добавки, доставляет и помогает не пропускать приём.</div>
+      </details>
+      <details data-reveal>
+        <summary>А если у меня нет назначения?<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="answer">Сейчас сервис рассчитан на тех, у кого уже есть рекомендации специалиста. Позже добавим возможность пройти консультацию и сдать анализы у наших партнёров.</div>
+      </details>
+      <details data-reveal>
+        <summary>Что именно вы доставляете?<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="answer">Только БАД и витамины из вашего назначения, расфасованные в персональные саше по дням и времени приёма. Рецептурные лекарства мы не продаём и не доставляем.</div>
+      </details>
+      <details data-reveal>
+        <summary>Где вы работаете?<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="answer">Запускаемся в Санкт-Петербурге и Москве. Оставьте контакты — сообщим, как только откроем доступ в вашем городе.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final on-dark" id="early-access">
+  <div class="wrap">
+    <span class="eyebrow" data-reveal><span class="dot"></span>Ранний доступ</span>
+    <h2 data-reveal>Соберите свой курс один раз&nbsp;— и&nbsp;забудьте о&nbsp;хаосе</h2>
+    <p class="sub" data-reveal>Оставьте e-mail и Telegram — позовём в первую волну и дадим особые условия для участников списка.</p>
+
+    <form class="capture" data-capture data-source="final" novalidate data-reveal>
+      <div class="fields">
+        <div class="field">
+          <label class="honeypot" for="f-company">Не заполняйте</label>
+          <input class="honeypot" id="f-company" name="company" tabindex="-1" autocomplete="off" />
+          <label class="sr-only" for="final-email">Ваш e-mail</label>
+          <input type="email" id="final-email" name="email" inputmode="email" autocomplete="email"
+            placeholder="Ваш e-mail" aria-describedby="msg-final" required />
+        </div>
+        <div class="field">
+          <label class="sr-only" for="final-tg">Telegram — никнейм или телефон</label>
+          <input type="text" id="final-tg" name="telegram" autocomplete="off"
+            placeholder="Telegram: @никнейм или телефон" aria-describedby="msg-final" required />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-terra">Получить ранний доступ</button>
+      <p class="form-msg" id="msg-final" role="status" aria-live="polite"></p>
+      <p class="form-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Первым участникам — особые условия. Никакого спама.
+      </p>
+      <p class="form-consent">Нажимая кнопку, вы соглашаетесь на обработку персональных данных согласно <a href="/privacy">политике конфиденциальности</a>.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="wordmark">Sal<span style="color:var(--terra-soft)">v</span>ea</div>
+    <p class="disc">БАД не является лекарственным средством. Сервис не оказывает медицинских услуг и не заменяет консультацию врача: мы исполняем рекомендации вашего специалиста. <a href="/privacy" style="text-decoration:underline;text-underline-offset:2px">Политика конфиденциальности</a>. © 2026, Salvea.</p>
+  </div>
+</footer>
+
+<!-- ============ SURVEY MODAL ============ -->
+<div class="modal-overlay" id="survey" role="dialog" aria-modal="true" aria-labelledby="survey-title" aria-hidden="true">
+  <div class="modal">
+    <button class="modal-close" type="button" aria-label="Закрыть">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="progress" aria-hidden="true"><span id="survey-bar"></span></div>
+    <div id="survey-body"><!-- наполняется JS --></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SALVEA — клиентская логика
+   ============================================================ */
+
+/* ------------------------------------------------------------------
+   ⚙️ ОТПРАВКА ЗАЯВОК В TELEGRAM (бот @vitlidsbot)
+   ------------------------------------------------------------------
+   ⚠️ ВНИМАНИЕ: токен бота лежит в коде страницы и виден всем в исходниках.
+   Это осознанный компромисс ради быстрого теста спроса. Перед публичным
+   запуском обязательно:
+     — смените токен через @BotFather, и/или
+     — перенесите отправку на серверный релей (см. telegram-webhook.example.js):
+       токен прячется в секреты сервера, а здесь вызывается его URL.
+
+   Формат payload:
+     лид:    { type:"lead",   email, telegram, source, ts }
+     опрос:  { type:"survey", email, telegram, answers:{q1..q5}, ts }
+------------------------------------------------------------------- */
+const TG_TOKEN   = "8686622768:AAGBpTs9lMA7QuNJduAEDhlbjJvhRfqJ4a0";
+const TG_CHAT_ID = "6690830842"; // ← ваш chat_id (@Timofeykudinov)
+const TG_API     = "https://api.telegram.org/bot" + TG_TOKEN + "/sendMessage";
+
+/* ---------- helpers ---------- */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const nowISO = () => new Date().toISOString();
+
+/* экранируем пользовательский ввод для HTML-разметки Telegram */
+const tgEsc = (s="") => String(s).replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+
+function buildTgMessage(d){
+  if(d.type === "survey"){
+    const a = d.answers || {};
+    const lines = Object.keys(a).map(k => "• <b>" + tgEsc(k) + "</b>: " + tgEsc(a[k])).join("\n");
+    return "📋 <b>Salvea — ответы опроса</b>\n"
+      + (d.email ? "✉️ " + tgEsc(d.email) + "\n" : "")
+      + (d.telegram ? "💬 " + tgEsc(d.telegram) + "\n" : "")
+      + "\n" + (lines || "—");
+  }
+  return "🌿 <b>Salvea — новая заявка</b>\n"
+    + "✉️ <b>E-mail:</b> " + tgEsc(d.email) + "\n"
+    + "💬 <b>Telegram:</b> " + tgEsc(d.telegram) + "\n"
+    + "📍 <b>Источник:</b> " + tgEsc(d.source || "site");
+}
+
+async function sendToWebhook(payload){
+  if(!TG_CHAT_ID || TG_CHAT_ID === "<CHAT_ID>"){
+    console.warn("[Salvea] TG_CHAT_ID не задан — заявка не отправлена:", payload);
+    return; // graceful: не роняем UX, пока не указан адрес доставки
+  }
+  const res = await fetch(TG_API, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({
+      chat_id: TG_CHAT_ID,
+      text: buildTgMessage(payload),
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  });
+  if(!res.ok) throw new Error("telegram " + res.status);
+}
+
+/* ---------- sticky nav ---------- */
+const nav = $("#nav");
+const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 12);
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
+
+/* ---------- smooth scroll для якорей ---------- */
+$$('[data-scroll]').forEach(a=>{
+  a.addEventListener("click", e=>{
+    const id = a.getAttribute("href");
+    const t = id && $(id);
+    if(t){ e.preventDefault(); const rm = matchMedia("(prefers-reduced-motion:reduce)").matches; t.scrollIntoView({behavior: rm ? "auto" : "smooth", block:"start"}); }
+  });
+});
+
+/* ---------- staggered reveal ---------- */
+(() => {
+  const items = $$("[data-reveal]");
+  // ступенчатая задержка среди соседей в одном контейнере
+  const reveal = (el) => {
+    const sibs = el.parentElement ? Array.from(el.parentElement.children).filter(c=>c.hasAttribute("data-reveal")) : [el];
+    el.style.transitionDelay = Math.min(Math.max(0, sibs.indexOf(el))*90, 360) + "ms";
+    el.classList.add("is-in");
+  };
+  if(!("IntersectionObserver" in window)){ items.forEach(reveal); return; }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){ reveal(en.target); io.unobserve(en.target); }
+    });
+  }, { threshold:0.12, rootMargin:"0px 0px -8% 0px" });
+  items.forEach(i=>io.observe(i));
+  // контент первого экрана (включая hero-форму у нижней кромки) показываем на загрузке,
+  // не дожидаясь скролла — критично для формы-CTA на невысоких экранах
+  const revealFirstScreen = () => items.forEach(el=>{
+    if(el.classList.contains("is-in")) return;
+    if(el.getBoundingClientRect().top < window.innerHeight*0.97){ reveal(el); io.unobserve(el); }
+  });
+  setTimeout(revealFirstScreen, 60);
+  window.addEventListener("load", revealFirstScreen);
+})();
+
+/* ---------- захват контактов ---------- */
+let leadData = { email:"", telegram:"", source:"" };
+
+$$('form[data-capture]').forEach(form=>{
+  const emailEl = form.querySelector('input[name="email"]');
+  const tgEl    = form.querySelector('input[name="telegram"]');
+  const hp      = form.querySelector('input[name="company"]');
+  const msg     = form.querySelector('.form-msg');
+  const btn     = form.querySelector('button[type="submit"]');
+
+  const clearInvalid = el => el.setAttribute("aria-invalid","false");
+  emailEl.addEventListener("input", ()=>clearInvalid(emailEl));
+  tgEl.addEventListener("input", ()=>clearInvalid(tgEl));
+
+  form.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    msg.textContent = ""; msg.className = "form-msg";
+
+    // honeypot — бот видит «успех», но данные никуда не уходят и опрос не открывается
+    if(hp && hp.value.trim() !== ""){ form.reset(); msg.textContent = "Спасибо! Вы в списке."; msg.classList.add("ok"); return; }
+
+    const email = emailEl.value.trim();
+    const tg    = tgEl.value.trim();
+    const emailBad = !EMAIL_RE.test(email);
+    const tgBad    = tg.length < 2;
+
+    emailEl.setAttribute("aria-invalid", emailBad ? "true" : "false");
+    tgEl.setAttribute("aria-invalid", tgBad ? "true" : "false");
+
+    if(emailBad || tgBad){
+      msg.textContent = "Проверьте e-mail и Telegram — кажется, есть опечатка.";
+      msg.classList.add("error");
+      (emailBad ? emailEl : tgEl).focus();
+      return;
+    }
+
+    btn.disabled = true;
+    const label = btn.textContent;
+    btn.textContent = "Отправляем…";
+
+    leadData = { email, telegram: tg, source: form.dataset.source || "site" };
+
+    try{
+      await sendToWebhook({ type:"lead", ...leadData, ts: nowISO() });
+      form.reset();
+      openSurvey();
+    }catch(err){
+      console.error(err);
+      msg.textContent = "Не получилось отправить. Попробуйте ещё раз или напишите нам в Telegram.";
+      msg.classList.add("error");
+    }finally{
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  });
+});
+
+/* ============================================================
+   ОПРОС (показывается после отправки контакта)
+   ============================================================ */
+const SURVEY = [
+  {
+    key:"q1",
+    title:"Принимаете ли вы витамины или БАД сейчас?",
+    options:["Да, регулярно","Да, но нерегулярно — забываю","Раньше принимал(а), забросил(а)","Нет, не принимаю"]
+  },
+  {
+    key:"q2",
+    title:"Кто посоветовал, что именно принимать?",
+    options:["Врач","Нутрициолог или диетолог","Подбираю сам(а) — статьи, блогеры","Пока никто, не знаю что нужно"]
+  },
+  {
+    key:"q3",
+    title:"Что в приёме раздражает больше всего?",
+    options:["Забываю принимать","Неудобно — много банок, нет системы","Не уверен(а), что пью правильное и в нужной дозе","Дорого и сложно подобрать выгодно"]
+  },
+  {
+    key:"q4",
+    title:"Сколько в месяц комфортно платить за готовые персональные саше с доставкой?",
+    options:["До 2 000 ₽","2 000–4 000 ₽","4 000–7 000 ₽","Больше 7 000 ₽","Зависит от состава"]
+  },
+  {
+    key:"q5",
+    title:"Ваш город?",
+    options:["Санкт-Петербург","Москва","Другой"]
+  }
+];
+
+const overlay   = $("#survey");
+const surveyBody = $("#survey-body");
+const surveyBar  = $("#survey-bar");
+const closeBtn   = overlay.querySelector(".modal-close");
+
+let qIndex = 0;
+const answers = {};
+let lastFocused = null;
+
+const bgEls = [document.getElementById("nav"), document.getElementById("top"), document.querySelector(".footer")].filter(Boolean);
+
+function openSurvey(){
+  qIndex = 0;
+  for(const k in answers) delete answers[k];
+  lastFocused = document.activeElement;
+  renderIntro();
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden","false");
+  bgEls.forEach(el=>{ el.inert = true; el.setAttribute("aria-hidden","true"); });
+  document.body.style.overflow = "hidden";
+}
+
+function closeSurvey(){
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden","true");
+  bgEls.forEach(el=>{ el.inert = false; el.removeAttribute("aria-hidden"); });
+  document.body.style.overflow = "";
+  if(lastFocused && lastFocused.focus) lastFocused.focus();
+}
+
+function setBar(pct){ surveyBar.style.width = pct + "%"; }
+
+function renderIntro(){
+  setBar(4);
+  surveyBody.innerHTML = `
+    <p class="q-eyebrow">Спасибо! Вы в списке</p>
+    <h3 id="survey-title">5 быстрых вопросов — поможете собрать сервис под вас</h3>
+    <p class="modal-intro">Один тап на ответ. Можно пропустить в любой момент.</p>
+    <div class="opts">
+      <button class="opt" type="button" data-start><span class="marker"></span>Поехали — 5 вопросов</button>
+    </div>
+    <div class="modal-foot">
+      <span></span>
+      <button class="skip" type="button" data-skip>Пропустить</button>
+    </div>`;
+  surveyBody.querySelector("[data-start]").addEventListener("click", ()=>{ qIndex = 0; renderQuestion(); });
+  surveyBody.querySelector("[data-skip]").addEventListener("click", finishSurvey);
+  closeBtn.focus();
+}
+
+function renderQuestion(){
+  const q = SURVEY[qIndex];
+  setBar(Math.round(((qIndex) / SURVEY.length) * 100) + 6);
+  surveyBody.innerHTML = `
+    <p class="q-eyebrow">Вопрос ${qIndex+1} из ${SURVEY.length}</p>
+    <h3 id="survey-title">${q.title}</h3>
+    <div class="opts" role="group" aria-labelledby="survey-title">
+      ${q.options.map((o,i)=>`<button class="opt" type="button" data-i="${i}"><span class="marker"></span>${o}</button>`).join("")}
+    </div>
+    <div class="modal-foot">
+      <span>${qIndex>0 ? '<button class="skip" type="button" data-back>← Назад</button>' : ''}</span>
+      <button class="skip" type="button" data-skip>Пропустить опрос</button>
+    </div>`;
+
+  surveyBody.querySelectorAll(".opt").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      answers[q.key] = q.options[+btn.dataset.i];
+      next();
+    });
+  });
+  const back = surveyBody.querySelector("[data-back]");
+  if(back) back.addEventListener("click", ()=>{ qIndex = Math.max(0, qIndex-1); renderQuestion(); });
+  surveyBody.querySelector("[data-skip]").addEventListener("click", finishSurvey);
+
+  const first = surveyBody.querySelector(".opt");
+  if(first) first.focus();
+}
+
+function next(){
+  if(qIndex < SURVEY.length - 1){ qIndex++; renderQuestion(); }
+  else finishSurvey();
+}
+
+async function finishSurvey(){
+  setBar(100);
+  // отправляем ответы (если хоть что-то ответили)
+  if(Object.keys(answers).length && (leadData.email || leadData.telegram)){
+    try{ await sendToWebhook({ type:"survey", email:leadData.email, telegram:leadData.telegram, answers:{...answers}, ts: nowISO() }); }
+    catch(err){ console.error(err); }
+  }
+  renderDone();
+}
+
+function renderDone(){
+  surveyBody.innerHTML = `
+    <div class="done">
+      <div class="seal"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3 id="survey-title">Готово, вы в списке</h3>
+      <p>Напишем в Telegram или на e-mail, как только откроем ранний доступ в вашем городе. Спасибо, что помогаете собрать Salvea под вас.</p>
+      <div style="margin-top:26px"><button class="btn btn-primary" type="button" data-done>Хорошо</button></div>
+    </div>`;
+  surveyBody.querySelector("[data-done]").addEventListener("click", closeSurvey);
+  surveyBody.querySelector("[data-done]").focus();
+}
+
+/* ---------- закрытие модалки ---------- */
+closeBtn.addEventListener("click", closeSurvey);
+overlay.addEventListener("click", e=>{ if(e.target === overlay) closeSurvey(); });
+document.addEventListener("keydown", e=>{ if(e.key === "Escape" && overlay.classList.contains("open")) closeSurvey(); });
+
+/* простая ловушка фокуса внутри модалки */
+overlay.addEventListener("keydown", e=>{
+  if(e.key !== "Tab") return;
+  const f = $$('button, [href], input, [tabindex]:not([tabindex="-1"])', overlay).filter(el=>el.getClientRects().length > 0 && !el.disabled);
+  if(!f.length) return;
+  const first = f[0], last = f[f.length-1];
+  if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+});
+
+/* год в футере (на будущее, если понадобится) */
+</script>
+</body>
+</html>
