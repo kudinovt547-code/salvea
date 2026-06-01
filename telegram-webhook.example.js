@@ -35,21 +35,20 @@ function esc(s = "") {
 }
 
 function formatMessage(d) {
+  const chLabel = (c) => (c === "vk" ? "ВКонтакте" : "Telegram");
   if (d.type === "survey") {
     const a = d.answers || {};
     const lines = Object.keys(a).map((k) => `• <b>${esc(k)}</b>: ${esc(a[k])}`).join("\n");
     return (
       `📋 <b>Salvea — ответы опроса</b>\n` +
-      `${d.email ? `✉️ ${esc(d.email)}\n` : ""}` +
-      `${d.telegram ? `💬 ${esc(d.telegram)}\n` : ""}` +
+      `${d.contact ? `💬 ${esc(d.contact)} (${chLabel(d.channel)})\n` : ""}` +
       `\n${lines || "—"}`
     );
   }
   // лид по умолчанию
   return (
     `🌿 <b>Salvea — новая заявка</b>\n` +
-    `✉️ <b>E-mail:</b> ${esc(d.email)}\n` +
-    `💬 <b>Telegram:</b> ${esc(d.telegram)}\n` +
+    `💬 <b>${chLabel(d.channel)}:</b> ${esc(d.contact)}\n` +
     `📍 <b>Источник:</b> ${esc(d.source || "site")}`
   );
 }

@@ -149,7 +149,9 @@ section{position:relative;}
 /* Форма захвата */
 .capture{display:flex;flex-direction:column;gap:12px;max-width:430px;}
 .capture .fields{display:flex;flex-direction:column;gap:12px;}
-@media (min-width:600px){.capture .fields{display:grid;grid-template-columns:1fr 1fr;}}
+.channel-toggle{display:flex;gap:6px;background:var(--paper-card);border:1.5px solid var(--line);border-radius:14px;padding:5px;}
+.ch-opt{flex:1;padding:.72em 1em;border-radius:10px;font-weight:600;font-size:.95rem;color:var(--greige);transition:background .2s var(--ease),color .2s var(--ease);}
+.ch-opt.is-active{background:var(--green);color:var(--paper);}
 .form-consent{font-size:.78rem;color:var(--greige);line-height:1.45;margin:2px 0 0;}
 .form-consent a{text-decoration:underline;text-underline-offset:2px;}
 .on-dark .form-consent{color:var(--on-dark-soft);}
@@ -310,6 +312,9 @@ details .answer{padding:0 4px 26px;color:var(--greige);font-size:1.06rem;max-wid
 .final .field input:focus{border-color:var(--terra-soft);box-shadow:0 0 0 4px rgba(217,138,91,.15);background:rgba(255,255,255,.1);}
 .final .form-note{color:var(--on-dark-soft);}
 .final .form-note svg{color:var(--terra-soft);}
+.final .channel-toggle{background:rgba(255,255,255,.06);border-color:var(--on-dark-line);}
+.final .ch-opt{color:var(--on-dark-soft);}
+.final .ch-opt.is-active{background:var(--paper);color:var(--green-deep);}
 
 /* ============ FOOTER ============ */
 .footer{background:#11261C;color:var(--on-dark-soft);padding:54px 0;font-size:.92rem;}
@@ -423,17 +428,17 @@ details .answer{padding:0 4px 26px;color:var(--greige);font-size:1.06rem;max-wid
 
       <form class="capture" data-capture data-source="hero" novalidate data-reveal>
         <div class="fields">
-          <div class="field">
-            <label class="honeypot" for="h-company">Не заполняйте</label>
-            <input class="honeypot" id="h-company" name="company" tabindex="-1" autocomplete="off" />
-            <label class="sr-only" for="hero-email">Ваш e-mail</label>
-            <input type="email" id="hero-email" name="email" inputmode="email" autocomplete="email"
-              placeholder="Ваш e-mail" aria-describedby="msg-hero" required />
+          <label class="honeypot" for="h-company">Не заполняйте</label>
+          <input class="honeypot" id="h-company" name="company" tabindex="-1" autocomplete="off" />
+          <div class="channel-toggle" role="radiogroup" aria-label="Где с вами связаться">
+            <button type="button" class="ch-opt is-active" data-ch="telegram" role="radio" aria-checked="true">Telegram</button>
+            <button type="button" class="ch-opt" data-ch="vk" role="radio" aria-checked="false">ВКонтакте</button>
           </div>
+          <input type="hidden" name="channel" value="telegram" />
           <div class="field">
-            <label class="sr-only" for="hero-tg">Telegram — никнейм или телефон</label>
-            <input type="text" id="hero-tg" name="telegram" autocomplete="off"
-              placeholder="Telegram: @никнейм или телефон" aria-describedby="msg-hero" required />
+            <label class="sr-only" for="hero-contact">Ваш ник или ссылка для связи</label>
+            <input type="text" id="hero-contact" name="contact" autocomplete="off"
+              placeholder="@никнейм в Telegram" aria-describedby="msg-hero" required />
           </div>
         </div>
         <button type="submit" class="btn btn-terra">Получить ранний доступ</button>
@@ -652,21 +657,21 @@ details .answer{padding:0 4px 26px;color:var(--greige);font-size:1.06rem;max-wid
   <div class="wrap">
     <span class="eyebrow" data-reveal><span class="dot"></span>Ранний доступ</span>
     <h2 data-reveal>Соберите свой курс один раз&nbsp;— и&nbsp;забудьте о&nbsp;хаосе</h2>
-    <p class="sub" data-reveal>Оставьте e-mail и Telegram — позовём в первую волну и дадим особые условия для участников списка.</p>
+    <p class="sub" data-reveal>Оставьте Telegram или ВКонтакте — позовём в первую волну и дадим особые условия для участников списка.</p>
 
     <form class="capture" data-capture data-source="final" novalidate data-reveal>
       <div class="fields">
-        <div class="field">
-          <label class="honeypot" for="f-company">Не заполняйте</label>
-          <input class="honeypot" id="f-company" name="company" tabindex="-1" autocomplete="off" />
-          <label class="sr-only" for="final-email">Ваш e-mail</label>
-          <input type="email" id="final-email" name="email" inputmode="email" autocomplete="email"
-            placeholder="Ваш e-mail" aria-describedby="msg-final" required />
+        <label class="honeypot" for="f-company">Не заполняйте</label>
+        <input class="honeypot" id="f-company" name="company" tabindex="-1" autocomplete="off" />
+        <div class="channel-toggle" role="radiogroup" aria-label="Где с вами связаться">
+          <button type="button" class="ch-opt is-active" data-ch="telegram" role="radio" aria-checked="true">Telegram</button>
+          <button type="button" class="ch-opt" data-ch="vk" role="radio" aria-checked="false">ВКонтакте</button>
         </div>
+        <input type="hidden" name="channel" value="telegram" />
         <div class="field">
-          <label class="sr-only" for="final-tg">Telegram — никнейм или телефон</label>
-          <input type="text" id="final-tg" name="telegram" autocomplete="off"
-            placeholder="Telegram: @никнейм или телефон" aria-describedby="msg-final" required />
+          <label class="sr-only" for="final-contact">Ваш ник или ссылка для связи</label>
+          <input type="text" id="final-contact" name="contact" autocomplete="off"
+            placeholder="@никнейм в Telegram" aria-describedby="msg-final" required />
         </div>
       </div>
       <button type="submit" class="btn btn-terra">Получить ранний доступ</button>
@@ -717,8 +722,8 @@ details .answer{padding:0 4px 26px;color:var(--greige);font-size:1.06rem;max-wid
        токен прячется в секреты сервера, а здесь вызывается его URL.
 
    Формат payload:
-     лид:    { type:"lead",   email, telegram, source, ts }
-     опрос:  { type:"survey", email, telegram, answers:{q1..q5}, ts }
+     лид:    { type:"lead",   channel, contact, source, ts }   // channel: "telegram" | "vk"
+     опрос:  { type:"survey", channel, contact, answers:{q1..q5}, ts }
 ------------------------------------------------------------------- */
 const TG_TOKEN   = "8686622768:AAGBpTs9lMA7QuNJduAEDhlbjJvhRfqJ4a0";
 const TG_CHAT_ID = "6690830842"; // ← ваш chat_id (@Timofeykudinov)
@@ -727,24 +732,22 @@ const TG_API     = "https://api.telegram.org/bot" + TG_TOKEN + "/sendMessage";
 /* ---------- helpers ---------- */
 const $  = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nowISO = () => new Date().toISOString();
 
 /* экранируем пользовательский ввод для HTML-разметки Telegram */
 const tgEsc = (s="") => String(s).replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
 
 function buildTgMessage(d){
+  const chLabel = c => c === "vk" ? "ВКонтакте" : "Telegram";
   if(d.type === "survey"){
     const a = d.answers || {};
     const lines = Object.keys(a).map(k => "• <b>" + tgEsc(k) + "</b>: " + tgEsc(a[k])).join("\n");
     return "📋 <b>Salvea — ответы опроса</b>\n"
-      + (d.email ? "✉️ " + tgEsc(d.email) + "\n" : "")
-      + (d.telegram ? "💬 " + tgEsc(d.telegram) + "\n" : "")
+      + (d.contact ? "💬 " + tgEsc(d.contact) + " (" + chLabel(d.channel) + ")\n" : "")
       + "\n" + (lines || "—");
   }
   return "🌿 <b>Salvea — новая заявка</b>\n"
-    + "✉️ <b>E-mail:</b> " + tgEsc(d.email) + "\n"
-    + "💬 <b>Telegram:</b> " + tgEsc(d.telegram) + "\n"
+    + "💬 <b>" + chLabel(d.channel) + ":</b> " + tgEsc(d.contact) + "\n"
     + "📍 <b>Источник:</b> " + tgEsc(d.source || "site");
 }
 
@@ -808,18 +811,28 @@ $$('[data-scroll]').forEach(a=>{
 })();
 
 /* ---------- захват контактов ---------- */
-let leadData = { email:"", telegram:"", source:"" };
+let leadData = { channel:"", contact:"", source:"" };
+const CONTACT_PLACEHOLDER = { telegram:"@никнейм в Telegram", vk:"Ссылка или ник ВКонтакте" };
 
 $$('form[data-capture]').forEach(form=>{
-  const emailEl = form.querySelector('input[name="email"]');
-  const tgEl    = form.querySelector('input[name="telegram"]');
-  const hp      = form.querySelector('input[name="company"]');
-  const msg     = form.querySelector('.form-msg');
-  const btn     = form.querySelector('button[type="submit"]');
+  const contactEl = form.querySelector('input[name="contact"]');
+  const channelEl = form.querySelector('input[name="channel"]');
+  const chOpts    = $$('.ch-opt', form);
+  const hp        = form.querySelector('input[name="company"]');
+  const msg       = form.querySelector('.form-msg');
+  const btn       = form.querySelector('button[type="submit"]');
 
-  const clearInvalid = el => el.setAttribute("aria-invalid","false");
-  emailEl.addEventListener("input", ()=>clearInvalid(emailEl));
-  tgEl.addEventListener("input", ()=>clearInvalid(tgEl));
+  // переключатель канала: Telegram / ВКонтакте
+  chOpts.forEach(opt=>{
+    opt.addEventListener("click", ()=>{
+      chOpts.forEach(o=>{ o.classList.remove("is-active"); o.setAttribute("aria-checked","false"); });
+      opt.classList.add("is-active"); opt.setAttribute("aria-checked","true");
+      channelEl.value = opt.dataset.ch;
+      contactEl.placeholder = CONTACT_PLACEHOLDER[opt.dataset.ch] || "";
+      contactEl.setAttribute("aria-invalid","false");
+    });
+  });
+  contactEl.addEventListener("input", ()=>contactEl.setAttribute("aria-invalid","false"));
 
   form.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -828,18 +841,14 @@ $$('form[data-capture]').forEach(form=>{
     // honeypot — бот видит «успех», но данные никуда не уходят и опрос не открывается
     if(hp && hp.value.trim() !== ""){ form.reset(); msg.textContent = "Спасибо! Вы в списке."; msg.classList.add("ok"); return; }
 
-    const email = emailEl.value.trim();
-    const tg    = tgEl.value.trim();
-    const emailBad = !EMAIL_RE.test(email);
-    const tgBad    = tg.length < 2;
+    const contact = contactEl.value.trim();
+    const channel = channelEl.value || "telegram";
 
-    emailEl.setAttribute("aria-invalid", emailBad ? "true" : "false");
-    tgEl.setAttribute("aria-invalid", tgBad ? "true" : "false");
-
-    if(emailBad || tgBad){
-      msg.textContent = "Проверьте e-mail и Telegram — кажется, есть опечатка.";
+    if(contact.length < 2){
+      contactEl.setAttribute("aria-invalid","true");
+      msg.textContent = channel === "vk" ? "Укажите ссылку или ник ВКонтакте." : "Укажите ваш ник в Telegram.";
       msg.classList.add("error");
-      (emailBad ? emailEl : tgEl).focus();
+      contactEl.focus();
       return;
     }
 
@@ -847,7 +856,7 @@ $$('form[data-capture]').forEach(form=>{
     const label = btn.textContent;
     btn.textContent = "Отправляем…";
 
-    leadData = { email, telegram: tg, source: form.dataset.source || "site" };
+    leadData = { channel, contact, source: form.dataset.source || "site" };
 
     try{
       await sendToWebhook({ type:"lead", ...leadData, ts: nowISO() });
@@ -981,8 +990,8 @@ function next(){
 async function finishSurvey(){
   setBar(100);
   // отправляем ответы (если хоть что-то ответили)
-  if(Object.keys(answers).length && (leadData.email || leadData.telegram)){
-    try{ await sendToWebhook({ type:"survey", email:leadData.email, telegram:leadData.telegram, answers:{...answers}, ts: nowISO() }); }
+  if(Object.keys(answers).length && leadData.contact){
+    try{ await sendToWebhook({ type:"survey", channel:leadData.channel, contact:leadData.contact, answers:{...answers}, ts: nowISO() }); }
     catch(err){ console.error(err); }
   }
   renderDone();
@@ -993,7 +1002,7 @@ function renderDone(){
     <div class="done">
       <div class="seal"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
       <h3 id="survey-title">Готово, вы в списке</h3>
-      <p>Напишем в Telegram или на e-mail, как только откроем ранний доступ в вашем городе. Спасибо, что помогаете собрать Salvea под вас.</p>
+      <p>Напишем в Telegram или ВКонтакте, как только откроем ранний доступ в вашем городе. Спасибо, что помогаете собрать Salvea под вас.</p>
       <div style="margin-top:26px"><button class="btn btn-primary" type="button" data-done>Хорошо</button></div>
     </div>`;
   surveyBody.querySelector("[data-done]").addEventListener("click", closeSurvey);
